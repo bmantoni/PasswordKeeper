@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace PasswordKeeperWpf
+{
+    public static class EncryptionUtilityFactory
+    {
+        public static IEncryptionUtility BuildEncryptionUtility ()
+        {
+            Type t = Type.GetType ( RIJNDAEL_CIPHER_ENCRYPTION );
+
+            IEncryptionUtility util = ( IEncryptionUtility )
+                Activator.CreateInstance ( t );
+
+            return util;
+        }
+
+        private const string RIJNDAEL_CIPHER_ENCRYPTION =
+        @"PasswordKeeperWpf.Encryption.RijndaelEncryption, PasswordKeeperWpf";
+    }
+}

@@ -1,0 +1,208 @@
+﻿<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:PasswordKeeperWpf.View"
+    mc:Ignorable="d" 
+    x:Class="PasswordKeeperWpf.MainWindow"
+	x:Name="Window"
+	Title="Password Keeper" AllowsTransparency="True"
+	Width="268" Height="309" WindowStyle="None" Background="{x:Null}">
+	<Window.Resources>
+		<ControlTemplate x:Key="ExitButton" TargetType="{x:Type Button}">
+			<Grid>
+				<TextBlock Margin="0" Text="x" TextWrapping="Wrap" d:LayoutOverrides="Width, Height" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18.667" FontFamily="Viner Hand ITC" Foreground="#FF242424"/>
+			</Grid>
+		</ControlTemplate>
+		<Storyboard x:Key="ShowSettings">
+			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LockedView" Storyboard.TargetProperty="(UIElement.Opacity)">
+				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LockedView" Storyboard.TargetProperty="(UIElement.Visibility)">
+				<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="00:00:00.3000000" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="00:00:00.4000000" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OptionsButton" Storyboard.TargetProperty="(UIElement.Opacity)">
+				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0"/>
+			</DoubleAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OptionsButton" Storyboard.TargetProperty="(UIElement.Visibility)">
+				<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="00:00:00.1000000" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="00:00:00.5000000" Value="{x:Static Visibility.Hidden}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OptionsGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.7000000" Value="1"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:01.1000000" Value="0.99"/>
+			</DoubleAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OptionsGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+				<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+				<DiscreteObjectKeyFrame KeyTime="00:00:00.4000000" Value="{x:Static Visibility.Hidden}"/>
+				<DiscreteObjectKeyFrame KeyTime="00:00:00.5000000" Value="{x:Static Visibility.Visible}"/>
+				<DiscreteObjectKeyFrame KeyTime="00:00:00.7000000" Value="{x:Static Visibility.Visible}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CloseOptionsButton" Storyboard.TargetProperty="(UIElement.Visibility)">
+				<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+				<DiscreteObjectKeyFrame KeyTime="00:00:00.5000000" Value="{x:Static Visibility.Hidden}"/>
+				<DiscreteObjectKeyFrame KeyTime="00:00:00.7000000" Value="{x:Static Visibility.Visible}"/>
+			</ObjectAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CloseOptionsButton" Storyboard.TargetProperty="(UIElement.Opacity)">
+				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.5000000" Value="0"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.7000000" Value="0"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:01.1000000" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+			<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OptionsGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+				<SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+				<SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1"/>
+			</DoubleAnimationUsingKeyFrames>
+		</Storyboard>
+        <ControlTemplate x:Key="BlankButtonTemplate" TargetType="{x:Type Button}">
+            <ContentControl x:Name="contentControl" Content="{TemplateBinding Content}" RenderTransformOrigin="0.5,0.5" >
+                <ContentControl.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </ContentControl.RenderTransform>
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal"/>
+                        <VisualState x:Name="MouseOver">
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="contentControl" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                    <SplineDoubleKeyFrame KeySpline="0.49,0.69,0.32,1" KeyTime="00:00:00.1000000" Value="1.4"/>
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1.2"/>
+                                </DoubleAnimationUsingKeyFrames>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="contentControl" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                    <SplineDoubleKeyFrame KeySpline="0.49,0.69,0.32,1" KeyTime="00:00:00.1000000" Value="1.4"/>
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="1.2"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualState>
+                        <VisualState x:Name="Pressed">
+                            <Storyboard>
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="contentControl" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0.8"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateManager.VisualStateGroups>
+            </ContentControl>
+        </ControlTemplate>
+        <Storyboard x:Key="CloseOptionsSB">
+        	<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LockedView" Storyboard.TargetProperty="(UIElement.Opacity)">
+        		<SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+        		<SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+        		<SplineDoubleKeyFrame KeyTime="00:00:00.9000000" Value="1"/>
+        	</DoubleAnimationUsingKeyFrames>
+        	<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="LockedView" Storyboard.TargetProperty="(UIElement.Visibility)">
+        		<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+        		<DiscreteObjectKeyFrame KeyTime="00:00:00.3000000" Value="{x:Static Visibility.Visible}"/>
+        	</ObjectAnimationUsingKeyFrames>
+        	<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OptionsButton" Storyboard.TargetProperty="(UIElement.Opacity)">
+        		<SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+        		<SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+        		<SplineDoubleKeyFrame KeyTime="00:00:00.6000000" Value="1"/>
+        	</DoubleAnimationUsingKeyFrames>
+        	<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OptionsButton" Storyboard.TargetProperty="(UIElement.Visibility)">
+        		<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Hidden}"/>
+        		<DiscreteObjectKeyFrame KeyTime="00:00:00.4000000" Value="{x:Static Visibility.Visible}"/>
+        	</ObjectAnimationUsingKeyFrames>
+        	<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CloseOptionsButton" Storyboard.TargetProperty="(UIElement.Opacity)">
+        		<SplineDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+        		<SplineDoubleKeyFrame KeyTime="00:00:00.2000000" Value="0"/>
+        	</DoubleAnimationUsingKeyFrames>
+        	<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="CloseOptionsButton" Storyboard.TargetProperty="(UIElement.Visibility)">
+        		<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+        		<DiscreteObjectKeyFrame KeyTime="00:00:00.2000000" Value="{x:Static Visibility.Visible}"/>
+        		<DiscreteObjectKeyFrame KeyTime="00:00:00.3000000" Value="{x:Static Visibility.Hidden}"/>
+        	</ObjectAnimationUsingKeyFrames>
+        	<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OptionsGrid" Storyboard.TargetProperty="(UIElement.Opacity)">
+        		<SplineDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+        		<SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+        	</DoubleAnimationUsingKeyFrames>
+        	<ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OptionsGrid" Storyboard.TargetProperty="(UIElement.Visibility)">
+        		<DiscreteObjectKeyFrame KeyTime="00:00:00" Value="{x:Static Visibility.Visible}"/>
+        		<DiscreteObjectKeyFrame KeyTime="00:00:00.3000000" Value="{x:Static Visibility.Visible}"/>
+        		<DiscreteObjectKeyFrame KeyTime="00:00:00.4000000" Value="{x:Static Visibility.Hidden}"/>
+        	</ObjectAnimationUsingKeyFrames>
+        	<DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="OptionsGrid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+        		<SplineDoubleKeyFrame KeyTime="00:00:00" Value="1"/>
+        		<SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+        	</DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Window.Resources>
+
+	<Grid x:Name="LayoutRoot">
+		<Border Margin="10.5,105,10.5,16" Width="247" Height="188" Panel.ZIndex="4" Background="White" CornerRadius="22">
+			<Border x:Name="border" MouseLeftButtonDown="DragWindow" Panel.ZIndex="1" BorderBrush="#B308364B" BorderThickness="2" CornerRadius="20">
+    		<Border.Background>
+    			<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+    				<GradientStop Color="#390F648A" Offset="0"/>
+    				<GradientStop Color="#760D506E" Offset="1"/>
+    				<GradientStop Color="#412E81A7" Offset="0.511"/>
+    			</LinearGradientBrush>
+    		</Border.Background>
+				<Border.Effect>
+					<DropShadowEffect Opacity="0.34"/>
+				</Border.Effect>
+				<Grid Margin="0" x:Name="ContentGrid" HorizontalAlignment="Center" VerticalAlignment="Center" Width="222.9" Height="166">
+
+					<local:PasswordPromptIntroControl x:Name="LockedView" />
+                
+					<Button x:Name="ExitButton" Command="ApplicationCommands.Close" HorizontalAlignment="Right" Margin="0,0,11,10" Panel.ZIndex="2" VerticalAlignment="Bottom" Template="{DynamicResource BlankButtonTemplate}">
+						<Image Source="..\images\exit_32x32.png" Width="20" Height="20" Opacity="0.65" />
+					</Button>
+					<Button x:Name="OptionsButton" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Template="{DynamicResource BlankButtonTemplate}">
+						<Button.Triggers>
+							<EventTrigger RoutedEvent="ButtonBase.Click" SourceName="OptionsButton">
+								<BeginStoryboard Storyboard="{StaticResource ShowSettings}"/>
+							</EventTrigger>
+						</Button.Triggers>
+						<Image Source="..\images\settings_48x48.png" Width="20" Height="20" Opacity="0.85" />
+					</Button>
+					<Button x:Name="CloseOptionsButton" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Template="{DynamicResource BlankButtonTemplate}" Opacity="0" Visibility="Hidden">
+						<Button.Triggers>
+							<EventTrigger RoutedEvent="ButtonBase.Click" SourceName="CloseOptionsButton">
+								<BeginStoryboard Storyboard="{StaticResource CloseOptionsSB}"/>
+							</EventTrigger>
+						</Button.Triggers>
+						<Image Source="..\images\undo_22x22.png" Width="20" Height="20" Opacity="0.85" />
+					</Button>
+					<Grid x:Name="OptionsGrid" Margin="32.95,32,27.95,52" Visibility="Hidden" Opacity="0" RenderTransformOrigin="0.5,0.5">
+						<Grid.RenderTransform>
+							<TransformGroup>
+								<ScaleTransform/>
+								<SkewTransform/>
+								<RotateTransform/>
+								<TranslateTransform/>
+							</TransformGroup>
+						</Grid.RenderTransform>
+						<Button x:Name="CreateNewVaultButton" Click="CreateNewVaultButton_Click" VerticalAlignment="Top" Height="32" Content="Create New Vault"/>
+						<Button x:Name="OpenExistingVaultButton" Click="OpenExistingVaultButton_Click"  Margin="0,50,0,0" VerticalAlignment="Top" Height="32" Content="Open Existing Vault"/>
+					</Grid>
+				</Grid>
+			</Border>
+		</Border>
+		<Ellipse StrokeThickness="17" Margin="0,0,0,82" Width="190" Height="209" Opacity="0.75">
+			<Ellipse.Effect>
+				<DropShadowEffect Opacity="0.34"/>
+			</Ellipse.Effect>
+			<Ellipse.Stroke>
+				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+					<GradientStop Color="#FF4889A5" Offset="0"/>
+					<GradientStop Color="#FFDEF4FE" Offset="0.532"/>
+				</LinearGradientBrush>
+			</Ellipse.Stroke>
+		</Ellipse>
+	</Grid>
+</Window>

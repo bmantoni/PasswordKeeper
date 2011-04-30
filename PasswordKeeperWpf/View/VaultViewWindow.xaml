@@ -1,0 +1,159 @@
+﻿<Window x:Class="PasswordKeeperWpf.View.VaultViewWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+	xmlns:convert="clr-namespace:PasswordKeeperWpf.View.Converter"
+    xmlns:local="clr-namespace:PasswordKeeperWpf.View"
+	WindowStyle="None" ScrollViewer.VerticalScrollBarVisibility="Disabled" MinWidth="460" MaxWidth="460" MinHeight="283" MaxHeight="283"
+    Title="NewVaultEntryWindow" Height="283" Width="460" x:Name="window" AllowsTransparency="True">
+
+    <Window.Resources>
+
+        <convert:UrlToFavIconConverter x:Key="UrlToFavIconConverter" />
+        
+        <Storyboard x:Key="SplashStoryboard">
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+                <SplineDoubleKeyFrame KeySpline="0.87,0.369,1,1" KeyTime="00:00:00.6000000" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="grid" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+                <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+                <SplineDoubleKeyFrame KeySpline="0.87,0.369,1,1" KeyTime="00:00:00.6000000" Value="0.05"/>
+                <SplineDoubleKeyFrame KeySpline="0.248,0.869,1,1" KeyTime="00:00:01" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="{x:Null}" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                <SplineColorKeyFrame KeyTime="00:00:00" Value="#00FFFFFF"/>
+                <SplineColorKeyFrame KeyTime="00:00:00.3000000" Value="#FFFFFFFF" KeySpline="0.165,0.709,1,1"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+
+        <Style x:Key="ButtonFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Stroke="Black" StrokeDashArray="1 2" StrokeThickness="1" Margin="3" SnapsToDevicePixels="true"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <LinearGradientBrush x:Key="ButtonNormalBackgroundFill" EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFFFFFFF" Offset="0"/>
+            <GradientStop Color="#FFF0F0EA" Offset="0.9"/>
+        </LinearGradientBrush>
+        <SolidColorBrush x:Key="ButtonBorder" Color="#FF003C74"/>
+
+        <DataTemplate x:Key="EntryListItemTemplate">
+
+            <Border Width="390" HorizontalAlignment="Stretch" Margin="4,5,4,0" VerticalAlignment="Top" Height="30" BorderThickness="1,1,1,1" CornerRadius="3,3,3,3" Panel.ZIndex="1" Background="#46CCCCCC">
+                <Border.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#A1E8E8E8" Offset="0"/>
+                        <GradientStop Color="#490D506E" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.BorderBrush>
+                <Grid Margin="2,2,2,2" HorizontalAlignment="Stretch" Width="Auto">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Loaded="FavIconImage_Loaded" HorizontalAlignment="Center" Margin="0,0,0,0" Width="16" Grid.Column="0" Height="16" VerticalAlignment="Center" Grid.Row="0" />
+                    <TextBlock Text="{Binding Title}" HorizontalAlignment="Left" Margin="10,0,0,0" Width="Auto" Grid.Column="1" TextWrapping="Wrap" FontFamily="Tunga" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+
+        </DataTemplate>
+        
+    </Window.Resources>
+
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard Storyboard="{StaticResource SplashStoryboard}"/>
+        </EventTrigger>
+    </Window.Triggers>
+
+    <Grid RenderTransformOrigin="0.5,0.5" x:Name="grid">
+        <Grid.RenderTransform>
+            <TransformGroup>
+                <ScaleTransform ScaleX="1" ScaleY="1"/>
+                <SkewTransform AngleX="0" AngleY="0"/>
+                <RotateTransform Angle="0"/>
+                <TranslateTransform X="0" Y="0"/>
+            </TransformGroup>
+        </Grid.RenderTransform>
+        <Border MouseLeftButtonDown="DragWindow" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Width="Auto" Height="Auto" Margin="10,10,10,10" CornerRadius="5,5,5,5" Panel.ZIndex="1">
+            <Border.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#390F648A" Offset="0"/>
+                    <GradientStop Color="#760D506E" Offset="1"/>
+                    <GradientStop Color="#412E81A7" Offset="0.511"/>
+                </LinearGradientBrush>
+            </Border.Background>
+            <Grid Margin="5,5,5,5">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.166*"/>
+                    <RowDefinition Height="0.834*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="textBlock" Margin="0,-3,2,9.578" FontFamily="Orator Std" FontSize="21.333" Foreground="#4E000000" Text="PasswordKeeper" TextWrapping="Wrap" RenderTransformOrigin="0.5,0.5" d:LayoutOverrides="Width, Height" Grid.Column="1" HorizontalAlignment="Right"/>
+                <TextBlock Foreground="#BDFFFFFF" Margin="17,17,0,0.892" Text="vault open" TextWrapping="Wrap" FontFamily="Segoe" FontSize="16" FontWeight="Normal" HorizontalAlignment="Left" Width="100"/>
+                <StackPanel Margin="0,0,0,5" Grid.RowSpan="2" Grid.Row="2">
+                    
+                    <StackPanel Orientation="Horizontal" Width="Auto" Height="30">
+                        <TextBox x:Name="EntrySearchTextBox" Text="type to search" Height="21" Width="160" VerticalAlignment="Bottom" Margin="5,0,145,0" Background="#4EB4B4B4" BorderBrush="#FFCECECE" Foreground="#FF5C5C5C" TextChanged="EntrySearchTextBox_TextChanged" />
+                	    <StackPanel Orientation="Horizontal" Width="Auto" Height="30" HorizontalAlignment="Right" Margin="0,0,5,0">
+                		<Button Width="32" Height="30" Click="CloseVaultButton_Click">
+                			<Button.Background>
+                				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                					<GradientStop Color="#FFD0E8F1" Offset="0"/>
+                					<GradientStop Color="#FF7CB8CF" Offset="0.9"/>
+                				</LinearGradientBrush>
+                			</Button.Background>
+                			<Image Source="../images/cancel_22x22.png" Width="15" Height="15" />
+                		</Button>
+                		<Button Click="SaveButton_Click">
+                			<Button.Background>
+                				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                					<GradientStop Color="#FFD0E8F1" Offset="0"/>
+                					<GradientStop Color="#FF7CB8CF" Offset="0.9"/>
+                				</LinearGradientBrush>
+                			</Button.Background>
+                			<Image Source="../images/key_save.png" />
+                		</Button>
+                		<Button Click="AddNewEntryButton_Click">
+                			<Button.Background>
+                				<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                					<GradientStop Color="#FFD0E8F1" Offset="0"/>
+                					<GradientStop Color="#FF7CB8CF" Offset="0.9"/>
+                				</LinearGradientBrush>
+                			</Button.Background>
+                			<Image Source="../images/addkey_med.png" />
+                		</Button>
+
+                	</StackPanel>
+                    </StackPanel>
+                	<ListBox 
+                		ItemsSource="{Binding}" 
+                		ItemTemplate="{StaticResource EntryListItemTemplate}"
+                        IsSynchronizedWithCurrentItem="True" 
+                		x:Name="EntryList" 
+                		MouseDoubleClick="EntryList_MouseDoubleClick" 
+                        Width="Auto" Height="171" Margin="0,4,5,0" HorizontalAlignment="Stretch"
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                		<ListBox.Background>
+                			<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                				<GradientStop Color="#FFC9E4EF" Offset="0"/>
+                				<GradientStop Color="#FFC9DAE1" Offset="1"/>
+                				<GradientStop Color="#FFEFEFEF" Offset="0.504"/>
+                			</LinearGradientBrush>
+                		</ListBox.Background>
+                	</ListBox>
+
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+
+</Window>
